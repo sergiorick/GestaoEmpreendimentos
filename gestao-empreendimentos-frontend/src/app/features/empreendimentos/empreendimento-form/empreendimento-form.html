@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>{{ modoEdicao ? 'Editar Empreendimento' : 'Novo Empreendimento' }}</h1>
+
+  <p *ngIf="carregando">Carregando dados...</p>
+
+  <form *ngIf="!carregando" [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="campo">
+      <label for="nome">Nome *</label>
+      <input id="nome" type="text" formControlName="nome" />
+      <p class="erro-campo" *ngIf="form.get('nome')?.touched && form.get('nome')?.invalid">
+        <span *ngIf="form.get('nome')?.errors?.['required']">Nome é obrigatório.</span>
+        <span *ngIf="form.get('nome')?.errors?.['minlength']"
+          >Nome deve ter pelo menos 3 caracteres.</span
+        >
+      </p>
+    </div>
+
+    <div class="campo">
+      <label for="cnpj">CNPJ *</label>
+      <input id="cnpj" type="text" formControlName="cnpj" />
+      <p class="erro-campo" *ngIf="form.get('cnpj')?.touched && form.get('cnpj')?.invalid">
+        <span *ngIf="form.get('cnpj')?.errors?.['required']">CNPJ é obrigatório.</span>
+      </p>
+      <p class="dica" *ngIf="modoEdicao">CNPJ não pode ser alterado após o cadastro.</p>
+    </div>
+
+    <div class="campo">
+      <label for="endereco">Endereço</label>
+      <input id="endereco" type="text" formControlName="endereco" />
+    </div>
+
+    <p class="msg-erro" *ngIf="erro">{{ erro }}</p>
+
+    <div class="acoes">
+      <button type="submit" [disabled]="salvando">
+        {{ salvando ? 'Salvando...' : 'Salvar' }}
+      </button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

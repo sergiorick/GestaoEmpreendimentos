@@ -1,0 +1,25 @@
+﻿services:
+  api:
+    build:
+      context: ./GestaoEmpreendimentos
+    container_name: gestao-api
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Data Source=/app/data/empreendimentos.db
+    volumes:
+      - sqlite-data:/app/data
+
+  frontend:
+    build:
+      context: ./gestao-empreendimentos-frontend
+    container_name: gestao-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+
+volumes:
+  sqlite-data:

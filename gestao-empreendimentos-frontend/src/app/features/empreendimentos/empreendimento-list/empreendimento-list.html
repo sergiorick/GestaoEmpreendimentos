@@ -1,0 +1,77 @@
+<div class="container">
+  <h1>Empreendimentos</h1>
+
+  <a routerLink="/empreendimentos/novo" class="btn btn-primary">+ Novo Empreendimento</a>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <input
+      type="text"
+      placeholder="Filtrar por nome..."
+      [(ngModel)]="filtroNome"
+      (keyup.enter)="aplicarFiltros()"
+    />
+
+    <select [(ngModel)]="filtroStatus">
+      <option value="">Todos os status</option>
+      <option value="Ativo">Ativo</option>
+      <option value="Inativo">Inativo</option>
+    </select>
+
+    <select [(ngModel)]="ordenarPor">
+      <option value="nome">Ordenar por nome</option>
+      <option value="dataCriacao">Ordenar por data de criação</option>
+    </select>
+
+    <button (click)="aplicarFiltros()">Buscar</button>
+  </div>
+
+  <!-- Mensagens -->
+  <p class="msg-erro" *ngIf="erro">{{ erro }}</p>
+  <p class="msg-sucesso" *ngIf="sucesso">{{ sucesso }}</p>
+
+  <!-- Loading -->
+  <p *ngIf="carregando">Carregando...</p>
+
+  <!-- Tabela -->
+  <table *ngIf="!carregando && empreendimentos.length > 0">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>CNPJ</th>
+        <th>Endereço</th>
+        <th>Status</th>
+        <th>Data de Criação</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of empreendimentos">
+        <td>{{ item.nome }}</td>
+        <td>{{ item.cnpj }}</td>
+        <td>{{ item.endereco || '-' }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.dataCriacao | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          <a [routerLink]="['/empreendimentos/editar', item.id]">Editar</a>
+          <button *ngIf="item.status === 'Ativo'" (click)="inativar(item.id)">Inativar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!carregando && empreendimentos.length === 0">Nenhum empreendimento encontrado.</p>
+
+  <!-- Paginação -->
+  <div class="paginacao" *ngIf="!carregando && totalPaginas > 1">
+    <button (click)="paginaAnterior()" [disabled]="paginaAtual === 1">&laquo; Anterior</button>
+
+    <span class="info-pagina">
+      Página {{ paginaAtual }} de {{ totalPaginas }} ({{ totalRegistros }} registros)
+    </span>
+
+    <button (click)="proximaPagina()" [disabled]="paginaAtual === totalPaginas">
+      Próxima &raquo;
+    </button>
+  </div>
+</div>
