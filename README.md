@@ -2,6 +2,9 @@
 
 Aplicação completa para cadastro e gestão de empreendimentos conforme desafio técnico da Monitori.
 
+**Repositório:** [https://github.com/sergiorick/GestaoEmpreendimentos](https://github.com/sergiorick/GestaoEmpreendimentos)
+**Branch principal:** `main`
+
 ## Tecnologias Utilizadas
 
 - **Backend**: .NET 8, Entity Framework Core, SQLite, Clean Architecture
